@@ -12,6 +12,7 @@ class AppColors {
   static const Color BaseColorAroundBlack = Color(0xFF1C1C1C);
   static const Color BaseColorAroundWhite = Color(0xFFBFBFBF);
   static const Color BaseColorGrey = Colors.grey;
+  static const Color BaseBackgroundColor = Colors.white;
 
   ///sub
   static const Color SubColorDate = Color(0xFF3B3B3B);
