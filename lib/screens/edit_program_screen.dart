@@ -1,3 +1,4 @@
+import 'package:duan/screens/program_screens.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -6,6 +7,7 @@ import '../providers/Program_providers.dart';
 import '../resources/app_color.dart';
 import '../widgets/custom_appbar.dart';
 import '../widgets/custom_button.dart';
+import '../widgets/item/item_kho.dart';
 
 class EditProgramScreen extends StatelessWidget {
   const EditProgramScreen({Key? key}) : super(key: key);
@@ -175,12 +177,20 @@ class BodyWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CustomButton(
-                  text: "Lưu",
-                  moveTo: () => EditProgramScreen(),
+                SizedBox(
+                  width: 200,
+                  height: 45,
+                  child: CustomButton(
+                    text: "Lưu",
+                    moveTo: () => EditProgramScreen(),
+                  ),
                 ),
-                SizedBox(width: screenSize.width * 0.05),
-                CustomButton(text: "Bỏ qua"),
+                SizedBox(width: screenSize.width * 0.05), // Giảm khoảng cách giữa các button
+                SizedBox(
+                  width: 200,
+                  height: 45,
+                  child: CustomButton(text: "Bỏ qua", onPressed: ProgramScreens(), colorBlack: true),
+                ),
               ],
             ),
           ],

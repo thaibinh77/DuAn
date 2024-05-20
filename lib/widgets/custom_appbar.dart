@@ -6,8 +6,8 @@ class CustomAppBar extends StatelessWidget {
   final String? title;
   final IconData? iconLeftButton;
   final String? rightButtonImage; // Đường dẫn đến hình ảnh cho nút phải
-  final VoidCallback? onPressedRight;
-  final VoidCallback? onPressedBack;
+  final Widget Function()? onPressedRight;
+  final Widget Function()? onPressedBack;
   final bool showBackButton;
 
   const CustomAppBar({
@@ -52,7 +52,14 @@ class CustomAppBar extends StatelessWidget {
           ),
           if (rightButtonImage != null) // Kiểm tra nếu có hình ảnh
             GestureDetector(
-              onTap: onPressedRight,
+              onTap: () {
+                if (onPressedRight != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => onPressedRight!()),
+                  );
+                }
+              },
               child: Container(
                 padding: EdgeInsets.all(8),
                 child: Image.asset(

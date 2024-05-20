@@ -1,12 +1,11 @@
 import 'package:duan/screens/add_program_screen.dart';
 import 'package:duan/screens/edit_program_screen.dart';
+import 'package:duan/widgets/carousel_widget.dart';
 import 'package:flutter/material.dart';
 import '../providers/Program_providers.dart';
 import '../resources/app_color.dart';
-import '../resources/dimens.dart';
 import '../widgets/custom_appbar.dart';
 import '../widgets/custom_button.dart';
-import '../widgets/item/item_caidat.dart';
 
 class ProgramScreens extends StatelessWidget {
   const ProgramScreens({Key? key}) : super(key: key);
@@ -41,6 +40,7 @@ class BodyWidget extends StatelessWidget {
                   title: "Các Chương Trình",
                   rightButtonImage: "assets/icons/window-close.png",
                   showBackButton: false,
+                  onPressedRight: () => CarouselWidget(),
                 ),
                 SizedBox(height: screenSize.height * 0.05),
                 Row(
@@ -53,7 +53,7 @@ class BodyWidget extends StatelessWidget {
                     Text(
                       'Từ ngày: 06/2/2024',
                       style: TextStyle(
-                        fontSize: screenSize.width * 0.02,
+                        fontSize: screenSize.width * 0.015,
                         fontWeight: FontWeight.bold,
                         color: AppColors.BaseColorMain,
                       ),
@@ -61,7 +61,7 @@ class BodyWidget extends StatelessWidget {
                     Text(
                       'Đến ngày: 10/2/2024',
                       style: TextStyle(
-                        fontSize: screenSize.width * 0.02,
+                        fontSize: screenSize.width * 0.015,
                         fontWeight: FontWeight.bold,
                         color: AppColors.BaseColorMain,
                       ),
@@ -90,17 +90,29 @@ class BodyWidget extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CustomButton(
-                      text: "Thêm Chương Trình",
-                      moveTo: () => AddProgramScreen(),
+                    SizedBox(
+                      width: 200,
+                      height: 45,
+                      child: CustomButton(
+                        text: "Thêm Chương Trình",
+                        moveTo: () => AddProgramScreen(),
+                      ),
                     ),
-                    SizedBox(width: screenSize.width * 0.05),
-                    CustomButton(
-                      text: "Chỉnh Sửa",
-                      moveTo: () => EditProgramScreen(),
+                    SizedBox(width: screenSize.width * 0.05), // Giảm khoảng cách giữa các button
+                    SizedBox(
+                      width: 200,
+                      height: 45,
+                      child: CustomButton(
+                        text: "Chỉnh Sửa",
+                        moveTo: () => EditProgramScreen(),
+                      ),
                     ),
-                    SizedBox(width: screenSize.width * 0.05), // Khoảng cách giữa hai button
-                    CustomButton(text: "Bỏ qua"),
+                    SizedBox(width: screenSize.width * 0.05), // Giảm khoảng cách giữa các button
+                    SizedBox(
+                      width: 200,
+                      height: 45,
+                      child: CustomButton(text: "Bỏ qua", colorBlack: true),
+                    ),
                   ],
                 ),
               ],

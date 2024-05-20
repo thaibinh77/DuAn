@@ -71,6 +71,7 @@ class _SettingDiaglogState extends State<SettingDiaglog> {
             CustomButton(
               text: "ĐỒNG BỘ",
               onPressed: ProgramScreens(),
+              colorBlack: true
             ),
           ],
         ),

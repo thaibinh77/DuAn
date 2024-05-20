@@ -95,7 +95,7 @@ class _SettingAPIState extends State<SettingAPI> {
               moveTo: () => SettingDiaglog(),
             ),
             SizedBox(width: 80), // Khoảng cách giữa hai button
-            CustomButton(text: "BỎ QUA"),
+            CustomButton(text: "BỎ QUA", colorBlack: true),
           ],
         ),
       ],

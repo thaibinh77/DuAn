@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/item/item_kho.dart';
+
 const List<String> list = <String>[
   'Chương trình 1',
   'Chương trình 2',
@@ -10,6 +12,15 @@ class ProgramProvider extends StatelessWidget {
   final bool showAddImage;
 
   const ProgramProvider({Key? key, this.showAddImage = false}) : super(key: key);
+
+  void _openArchive(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ArchiveDialog();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +37,7 @@ class ProgramProvider extends StatelessWidget {
           if (showAddImage)
             InkWell(
               onTap: () {
+                _openArchive(context);
               },
               child: Image.asset(
                 'assets/icons/Add.png',

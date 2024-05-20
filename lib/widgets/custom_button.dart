@@ -6,11 +6,13 @@ class CustomButton extends StatelessWidget {
     required this.text,
     this.onPressed,
     this.moveTo,
+    this.colorBlack = false,
   }) : super(key: key);
 
   final Widget? onPressed;
   final String text;
   final Widget Function()? moveTo; // Function có thể là null
+  final bool colorBlack;
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +37,12 @@ class CustomButton extends StatelessWidget {
         },
         style: ButtonStyle(
           minimumSize: MaterialStateProperty.all<Size>(Size(double.infinity, 48)), // Kích thước tối thiểu của button
-          backgroundColor: moveTo != null ? MaterialStateProperty.all<Color>(const Color(0xFFCF2727)) : MaterialStateProperty.all<Color>(Colors.white),
+          padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(horizontal: 16.0)), // Khoảng cách giữa nội dung và biên
+          backgroundColor: colorBlack == false ? MaterialStateProperty.all<Color>(const Color(0xFFCF2727)) : MaterialStateProperty.all<Color>(Colors.white),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16.0),
-              side: moveTo != null ? BorderSide.none : const BorderSide(color: Colors.black), // Đường viền màu đen
+              side: colorBlack == false ? BorderSide.none : const BorderSide(color: Colors.black), // Đường viền màu đen
             ),
           ),
         ),
@@ -47,7 +50,7 @@ class CustomButton extends StatelessWidget {
           text,
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: moveTo != null ? Colors.white : Colors.black,
+            color: colorBlack == false ? Colors.white : Colors.black,
           ),
         ),
       ),

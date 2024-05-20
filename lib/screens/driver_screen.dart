@@ -64,12 +64,20 @@ class BodyWidget extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CustomButton(
-                      text: "Lưu",
-                      moveTo: () => AddProgramScreen(),
+                    SizedBox(
+                      width: 200,
+                      height: 45,
+                      child: CustomButton(
+                        text: "Lưu",
+                        moveTo: () => AddProgramScreen(),
+                      ),
                     ),
-                    SizedBox(width: screenSize.width * 0.05), // Khoảng cách giữa hai button
-                    CustomButton(text: "Bỏ qua"),
+                    SizedBox(width: screenSize.width * 0.05),
+                    SizedBox(
+                      width: 200,
+                      height: 45,
+                      child: CustomButton(text: "Bỏ qua",colorBlack: true),
+                    ),
                   ],
                 ),
               ],

@@ -77,7 +77,7 @@ class _LoginDialogState extends State<LoginDialog> {
               moveTo: () => SettingDiaglog(),
             ),
             SizedBox(width: 80), // Khoảng cách giữa hai button
-            CustomButton(text: "Bỏ qua"),
+            CustomButton(text: "Bỏ qua", colorBlack: true),
           ],
         ),
       ],
