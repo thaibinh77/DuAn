@@ -1,4 +1,4 @@
-import 'package:duan/widgets/test.dart';
+import 'package:duan/widgets/carousel_widget.dart';
 import 'package:flutter/material.dart';
 
 void main() {
