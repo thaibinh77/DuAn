@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import '../../providers/Program_providers.dart';
+import '../../resources/app_color.dart';
 import '../../screens/driver_screen.dart';
 class ArchiveDialog extends StatefulWidget {
   const ArchiveDialog({Key? key}) : super(key: key);
@@ -29,7 +29,7 @@ class _ArchiveDialogState extends State<ArchiveDialog> {
           ),
           Expanded(
             child: Text(
-              "Kho lưu trữ/video",
+              "Kho lưu trữ hình ảnh/video",
               textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
@@ -45,7 +45,7 @@ class _ArchiveDialogState extends State<ArchiveDialog> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                SizedBox(height: 10),
+                SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -85,23 +85,25 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 200,
+      width: 250,
       height: 40,
       child: DropdownButton2<String>(
         isExpanded: true,
         hint: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Image.asset(
               'assets/icons/file.png',
               width: 16,
               height: 16,
             ),
-            SizedBox(width: 4),
+            SizedBox(width: 15),
             Expanded(
               child: Text(
-                'Select Item',
+                'Chọn các tệp',
                 style: TextStyle(
                   fontSize: 14,
+                  color: AppColors.BaseColorBlack,
                   fontWeight: FontWeight.bold,
                 ),
                 overflow: TextOverflow.ellipsis,
@@ -109,7 +111,7 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
             ),
             SizedBox(width: 4),
             VerticalDivider(
-              color: Colors.black,
+              color: AppColors.BaseColorGrey,
               thickness: 1,
               width: 16,
             ),
@@ -119,14 +121,14 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
           return DropdownMenuItem<String>(
             value: item,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                // Điều kiện để hiển thị hình ảnh khác nhau dựa trên giá trị của từng mục
                 Image.asset(
                   item == 'Từ USB' ? 'assets/icons/usb.png' : 'assets/icons/device.png',
                   width: 16,
                   height: 16,
                 ),
-                SizedBox(width: 4),
+                SizedBox(width: 10),
                 Text(item),
               ],
             ),
@@ -161,9 +163,12 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
         iconStyleData: IconStyleData(
           icon: Icon(
             Icons.keyboard_arrow_down_outlined,
+            color: AppColors.BaseColorBlack,
             size: 24,
           ),
-          openMenuIcon: Icon(Icons.keyboard_arrow_up_outlined, size: 24),
+          openMenuIcon: Icon(Icons.keyboard_arrow_up_outlined, size: 24,
+            color: AppColors.BaseColorBlack,
+          ),
         ),
         menuItemStyleData: const MenuItemStyleData(
           height: 40,
