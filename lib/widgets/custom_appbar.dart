@@ -37,16 +37,16 @@ class CustomAppBar extends StatelessWidget {
               alignment: Alignment.center,
               child: title != null
                   ? FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  title!,
-                  style: const TextStyle(
-                    color: AppColors.BaseColorBlack,
-                    fontSize: Dimens.FontSizeAppBar,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              )
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      title!,
+                      style: const TextStyle(
+                        color: AppColors.BaseColorBlack,
+                        fontSize: Dimens.FontSizeAppBar,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
                   : Container(),
             ),
           ),

@@ -7,6 +7,10 @@ const List<String> list = <String>[
 ];
 
 class ProgramProvider extends StatelessWidget {
+  final bool showAddImage;
+
+  const ProgramProvider({Key? key, this.showAddImage = false}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Wrap(
@@ -19,10 +23,19 @@ class ProgramProvider extends StatelessWidget {
           _buildImage("assets/images/banner4.png"),
           _buildImage("assets/images/banner5.png"),
           _buildImage("assets/images/banner6.png"),
+          if (showAddImage)
+            InkWell(
+              onTap: () {
+              },
+              child: Image.asset(
+                'assets/icons/Add.png',
+                width: 200, // Kích thước của hình ảnh
+                height: 115, // Kích thước của hình ảnh
+              ),
+            ),
         ],
     );
   }
-
   Widget _buildImage(String assetPath) {
     return SizedBox(
       width: 200,
