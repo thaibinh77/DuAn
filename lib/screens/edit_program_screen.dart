@@ -34,7 +34,7 @@ class BodyWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CustomAppBar(
-              title: "Thêm Chương Trình",
+              title: "Chỉnh sửa chương trình",
               showBackButton: false,
             ),
             SizedBox(height: screenSize.height * 0.07),
@@ -163,22 +163,12 @@ class BodyWidget extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Expanded(child: ProgramProvider()),
+                          Expanded(child: ProgramProvider(showAddImage: true)),
                         ],
                       ),
                     ],
                   ),
                 ), // Khoảng cách giữa form và hình ảnh
-                InkWell(
-                  onTap: () {
-                    // Xử lý khi bấm vào hình ảnh
-                  },
-                  child: Image.asset(
-                    'assets/icons/Add.png',
-                    width: screenSize.width * 0.1,
-                    height: screenSize.width * 0.1,
-                  ),
-                ),
               ],
             ),
             SizedBox(height: screenSize.height * 0.05),

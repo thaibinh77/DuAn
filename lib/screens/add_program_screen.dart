@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import '../resources/app_color.dart';
 import '../widgets/custom_appbar.dart';
 import '../widgets/custom_button.dart';
+import '../widgets/item/item_kho.dart';
 
 class AddProgramScreen extends StatelessWidget {
   const AddProgramScreen({Key? key}) : super(key: key);
@@ -17,6 +18,15 @@ class AddProgramScreen extends StatelessWidget {
 
 class BodyWidget extends StatelessWidget {
   const BodyWidget({Key? key}) : super(key: key);
+
+  void _openArchive(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ArchiveDialog();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -156,7 +166,7 @@ class BodyWidget extends StatelessWidget {
             SizedBox(height: screenSize.height * 0.04), // Khoảng cách giữa form và hình ảnh
             InkWell(
               onTap: () {
-                // Xử lý khi bấm vào hình ảnh
+                _openArchive(context);
               },
               child: Image.asset(
                 'assets/icons/Add.png',
