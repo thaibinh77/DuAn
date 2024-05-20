@@ -1,8 +1,9 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:duan/widgets/item/item_carousel_widget.dart';
-import '../../screens/menu_screen.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
 import 'item/item_bottom.dart';
+import 'item/item_carousel_widget.dart';
 import 'item/item_dangnhap.dart';
 
 class CarouselWidget extends StatefulWidget {
@@ -14,6 +15,7 @@ class CarouselWidget extends StatefulWidget {
 
 class _CarouselWidgetState extends State<CarouselWidget> {
   late int _startIndex = 0;
+  int activeIndex = 0;
 
   void _openLoginPage(BuildContext context) {
     showDialog(
@@ -29,88 +31,80 @@ class _CarouselWidgetState extends State<CarouselWidget> {
     List<Widget> listCarousel = [
       ItemCarouselWidget(
         img: "assets/images/banner1.png",
-        // visible: _startIndex == 0,
+        visible: _startIndex == 0,
       ),
       ItemCarouselWidget(
         img: "assets/images/banner2.png",
-        // visible: _startIndex == 1,
+        visible: _startIndex == 1,
       ),
       ItemCarouselWidget(
         img: "assets/images/banner3.png",
-        // visible: _startIndex == 2,
-      ),
-      ItemCarouselWidget(
-        img: "assets/images/banner4.png",
-        // visible: _startIndex == 3,
-      ),
-      ItemCarouselWidget(
-        img: "assets/images/banner5.png",
-        // visible: _startIndex == 4,
-      ),
-      ItemCarouselWidget(
-        img: "assets/images/banner6.png",
-        // visible: _startIndex == 5,
+        visible: _startIndex == 2,
       ),
     ];
 
-    return Stack(
-      children: [
-        CarouselSlider.builder(
-          itemCount: 2,
-          options: CarouselOptions(
-            height: MediaQuery.of(context).size.height, // Chiều cao gần bằng màn hình
-            aspectRatio: MediaQuery.of(context).size.width / MediaQuery.of(context).size.height, // Tỷ lệ khung hình fit với chiều dài và chiều ngang của màn hình
-            autoPlay: true,
-            autoPlayInterval: const Duration(seconds: 5),
-            autoPlayAnimationDuration: const Duration(seconds: 1),
-            autoPlayCurve: Curves.linear,
-            onPageChanged: (index, reason) {
-              setState(() {
-                if (index == _startIndex + 1) {
-                  _startIndex++;
-                }
-              });
-            },
-          ),
-          itemBuilder: (BuildContext context, int index, _) {
-            int itemIndex = _startIndex + index; // Tính toán vị trí trong danh sách carousel
+    Widget buildIndicator() => AnimatedSmoothIndicator(
+      activeIndex: activeIndex,
+      count: listCarousel.length,
+      effect: ScrollingDotsEffect(
+        dotWidth: 15,
+        dotHeight: 15,
+        activeDotColor: Colors.white,
+      ),
+    );
 
-            return GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, MenuScreen.routeName);
+    return Center(
+      child: Stack(
+        children: [
+          CarouselSlider.builder(
+            itemCount: listCarousel.length,
+            options: CarouselOptions(
+              height: MediaQuery.of(context).size.height, // Chiều cao gần bằng màn hình
+              aspectRatio: MediaQuery.of(context).size.width /
+                  MediaQuery.of(context).size.height, // Tỷ lệ khung hình fit với chiều dài và chiều ngang của màn hình
+              viewportFraction: 1,
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 5),
+              autoPlayAnimationDuration: const Duration(seconds: 1),
+              autoPlayCurve: Curves.linear,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _startIndex = index;
+                  activeIndex = index;
+                });
               },
-              child: Stack(
-                children: [
-                  ...List.generate(listCarousel.length, (i) {
-                    int currentIndex = itemIndex % listCarousel.length;
-                    return Positioned(
-                      child: AnimatedOpacity(
-                        duration: Duration(milliseconds: 300),
-                        opacity: i == currentIndex ? 1.0 : 0.0,
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height,
-                          child: listCarousel[currentIndex],
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                ],
-              ),
-            );
-          },
-        ),
-        Positioned(
-          right: 10,
-          bottom: 10,
-          child: GestureDetector(
-            onTap: () {
-              _openLoginPage(context);
+            ),
+            itemBuilder: (BuildContext context, int index, _) {
+              return Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: 30.0, vertical: 20.0), // Khoảng cách giữa các item
+                child: Stack(
+                  children: [
+                    listCarousel[index],
+                  ],
+                ),
+              );
             },
-            child: ItemBottom(),
           ),
-        ),
-      ],
+          Positioned(
+            right: 50,
+            bottom: 40,
+            child: GestureDetector(
+              onTap: () {
+                _openLoginPage(context);
+              },
+              child: ItemBottom(),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 30.0), // Khoảng cách từ dưới lên
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: buildIndicator(),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
