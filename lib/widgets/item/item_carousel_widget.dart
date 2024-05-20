@@ -8,11 +8,9 @@ class ItemCarouselWidget extends StatelessWidget {
   const ItemCarouselWidget({
     Key? key,
     required this.img,
-    required this.visible,
   }) : super(key: key);
 
   final String img;
-  final bool visible;
 
   @override
   Widget build(BuildContext context) {
@@ -20,24 +18,20 @@ class ItemCarouselWidget extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => FlipMenuWidget()),
+          MaterialPageRoute(builder: (context) => MenuScreen()),
         );
       },
-      child: AnimatedOpacity(
-        duration: Duration(milliseconds: 300),
-        opacity: visible ? 1.0 : 0.0,
-        child: Stack(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              child: Image.asset(
-                img,
-                fit: BoxFit.cover,
-              ),
+      child: Stack(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Image.asset(
+              img,
+              fit: BoxFit.cover,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

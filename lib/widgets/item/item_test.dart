@@ -34,7 +34,7 @@ class _ItemTestWidgetState extends State<ItemTestWidget> with TickerProviderStat
     super.initState();
     _controller2 = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 10),
+      duration: Duration(milliseconds: 500),
     );
     animation2 = Tween<double>(begin: 0.0, end: 1.0).animate(_controller2!)
       ..addListener(() {
@@ -43,7 +43,7 @@ class _ItemTestWidgetState extends State<ItemTestWidget> with TickerProviderStat
 
     _controller1 = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 10),
+      duration: Duration(milliseconds: 500),
     );
     animation1 = Tween<double>(begin: 1.0, end: 0.0).animate(_controller1!)
       ..addListener(() {
@@ -59,7 +59,7 @@ class _ItemTestWidgetState extends State<ItemTestWidget> with TickerProviderStat
   }
 
   void handleImage1Tap() {
-    _controller1.reverse().then((value) {
+    _controller2.reverse().then((value) {
       if (widget.onPressed1 != null) {
         widget.onPressed1!();
       }
@@ -70,7 +70,6 @@ class _ItemTestWidgetState extends State<ItemTestWidget> with TickerProviderStat
     _controller2.forward(from: 0.0).then((value) {
       if (widget.onPressed2 != null) {
         widget.onPressed2!();
-        _controller2.reset();
       }
     });
   }
@@ -95,7 +94,7 @@ class _ItemTestWidgetState extends State<ItemTestWidget> with TickerProviderStat
                     fit: BoxFit.fill,
                   ),
                 )
-                    : Expanded(
+                : Expanded(
                   child: GestureDetector(
                     onTap: handleImage1Tap,
                     child: Container(
@@ -107,8 +106,13 @@ class _ItemTestWidgetState extends State<ItemTestWidget> with TickerProviderStat
                             transform: Matrix4.identity()
                               ..setEntry(3, 2, 0.0015)
                               ..rotateY(pi * (1-animation1.value)),
-                            child: Image.asset(
+                            child: animation2.value <= 0.5 ?
+                            Image.asset(
                               widget.image1,
+                              fit: BoxFit.fill,
+                            )
+                                : Image.asset(
+                              widget.image2,
                               fit: BoxFit.fill,
                             ),
                           );
@@ -118,13 +122,13 @@ class _ItemTestWidgetState extends State<ItemTestWidget> with TickerProviderStat
                   ),
                 ),
                 widget.onPressed2 == null ?
-                Expanded(
-                  child: Image.asset(
-                    widget.image2,
-                    fit: BoxFit.fill,
-                  ),
-                )
-                    : Expanded(
+                  Expanded(
+                    child: Image.asset(
+                      widget.image2,
+                      fit: BoxFit.fill,
+                    ),
+                  )
+                : Expanded(
                   child: GestureDetector(
                     onTap: handleImage2Tap,
                     child: Container(
@@ -141,7 +145,7 @@ class _ItemTestWidgetState extends State<ItemTestWidget> with TickerProviderStat
                               widget.image2,
                               fit: BoxFit.fill,
                             )
-                                : Image.asset(
+                            : Image.asset(
                               widget.image3,
                               fit: BoxFit.fill,
                             ),
