@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'item/item_carousel_widget.dart';
+import '../providers/banner_provider.dart';
+import 'item/item_slider_widget.dart';
 
 class Carousel extends StatefulWidget {
   final Function(int) onIndexChanged;
@@ -15,18 +16,7 @@ class _CarouselWidgetState extends State<Carousel> with TickerProviderStateMixin
   late Animation<double> _fadeInAnimation;
   late Animation<Offset> _slideAnimation;
   int _currentIndex = 0;
-
-  List<Widget> listCarousel = [
-    ItemCarouselWidget(
-      img: "assets/images/banner1.png",
-    ),
-    ItemCarouselWidget(
-      img: "assets/images/banner2.png",
-    ),
-    ItemCarouselWidget(
-      img: "assets/images/banner3.png",
-    ),
-  ];
+  int current = 0;
 
   @override
   void initState() {
@@ -39,7 +29,7 @@ class _CarouselWidgetState extends State<Carousel> with TickerProviderStateMixin
 
     _slideController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 1),
     );
 
     _fadeInAnimation = Tween<double>(
@@ -62,7 +52,11 @@ class _CarouselWidgetState extends State<Carousel> with TickerProviderStateMixin
       _slideController.forward().orCancel;
       _fadeController.forward().orCancel;
 
+
       await _slideController.forward().orCancel;
+
+      current = (_currentIndex + 1) % listCarousel.length;
+      widget.onIndexChanged(current);
 
       await _fadeController.reverse().orCancel;
 

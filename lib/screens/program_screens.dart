@@ -1,6 +1,6 @@
 import 'package:duan/screens/add_program_screen.dart';
 import 'package:duan/screens/edit_program_screen.dart';
-import 'package:duan/widgets/carousel_widget.dart';
+import 'package:duan/widgets/slider_widget.dart';
 import 'package:flutter/material.dart';
 import '../providers/Program_providers.dart';
 import '../resources/app_color.dart';
@@ -37,7 +37,7 @@ class BodyWidget extends StatelessWidget {
               title: "Các Chương Trình",
               rightButtonImage: "assets/icons/window-close.png",
               showBackButton: false,
-              onPressedRight: () => CarouselWidget(),
+              onPressedRight: () => SliderWidget(),
             ),
             SizedBox(height: screenSize.height * 0.05),
             Row(

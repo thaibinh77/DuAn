@@ -1,4 +1,4 @@
-import 'package:duan/widgets/carousel_widget.dart';
+import 'package:duan/widgets/slider_widget.dart';
 // import 'package:duan/widgets/test.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: CarouselWidget(),
+      home: SliderWidget(),
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white, // Thiết lập màu nền trắng cho toàn bộ ứng dụng
       ),
