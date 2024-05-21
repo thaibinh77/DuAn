@@ -25,7 +25,7 @@ class ProgramProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Wrap(
-        spacing: 30.0, // Khoảng cách giữa các ảnh
+        spacing: 25.0, // Khoảng cách giữa các ảnh
         runSpacing: 10.0, // Khoảng cách giữa các dòng
         children: [
           _buildImage("assets/images/banner1.png"),

@@ -36,7 +36,7 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
   }
 
   void _startTimer() {
-    _timer = Timer(Duration(seconds: 5), () {
+    _timer = Timer(Duration(seconds: 15), () {
       // Nếu đếm ngược kết thúc mà không có tương tác từ người dùng,
       // thì tự động chuyển đến trang slideshow
       Navigator.pushReplacement(

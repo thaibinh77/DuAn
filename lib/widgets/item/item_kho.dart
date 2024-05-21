@@ -10,7 +10,6 @@ class ArchiveDialog extends StatefulWidget {
 }
 
 class _ArchiveDialogState extends State<ArchiveDialog> {
-  final TextEditingController _usernameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
