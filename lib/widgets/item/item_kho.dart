@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import '../../resources/app_color.dart';
 import '../../screens/driver_screen.dart';
+import 'package:image_picker/image_picker.dart';
+
+
+
 class ArchiveDialog extends StatefulWidget {
   const ArchiveDialog({Key? key}) : super(key: key);
 
@@ -123,7 +127,9 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Image.asset(
-                  item == 'Từ USB' ? 'assets/icons/usb.png' : 'assets/icons/device.png',
+                  item == 'Từ USB'
+                      ? 'assets/icons/usb.png'
+                      : 'assets/icons/device.png',
                   width: 16,
                   height: 16,
                 ),
@@ -134,23 +140,26 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
           );
         }).toList(),
         value: selectedValue,
-        onChanged: (value) {
+        onChanged: (value) async {
           setState(() {
             selectedValue = value;
-            if (selectedValue == 'Từ USB') {
-              // Chuyển hướng đến trang DriverScreen khi chọn "Từ USB"
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => DriverScreens()),
-              );
-            }
-            else if(selectedValue == 'Từ thiết bị'){
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => DriverScreens()),
-              );
-            }
           });
+
+          if (selectedValue == 'Từ USB') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => DriverScreens()),
+            );
+          } else if (selectedValue == 'Từ thiết bị') {
+            final ImagePicker _picker = ImagePicker();
+            final XFile? image = await _picker.pickImage(
+                source: ImageSource.gallery);
+
+            if (image != null) {
+              // Xử lý tệp ảnh đã chọn, ví dụ: lưu đường dẫn ảnh hoặc hiển thị ảnh
+              print('Đường dẫn ảnh đã chọn: ${image.path}');
+            }
+          }
         },
         buttonStyleData: ButtonStyleData(
           padding: const EdgeInsets.only(left: 14, right: 14),
@@ -165,7 +174,9 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
             color: AppColors.BaseColorBlack,
             size: 24,
           ),
-          openMenuIcon: Icon(Icons.keyboard_arrow_up_outlined, size: 24,
+          openMenuIcon: Icon(
+            Icons.keyboard_arrow_up_outlined,
+            size: 24,
             color: AppColors.BaseColorBlack,
           ),
         ),
@@ -178,3 +189,4 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
     );
   }
 }
+
