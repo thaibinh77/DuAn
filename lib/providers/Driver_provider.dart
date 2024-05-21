@@ -16,7 +16,7 @@ class _DriverProviderState extends State<DriverProvider> {
   @override
   Widget build(BuildContext context) {
     return Wrap(
-      spacing: 30.0, // Khoảng cách giữa các ảnh
+      spacing: 25.0, // Khoảng cách giữa các ảnh
       runSpacing: 10.0, // Khoảng cách giữa các dòng
       children: [
         ItemImage(assetPath: "assets/images/banner1.png"),

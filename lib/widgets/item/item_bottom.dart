@@ -5,8 +5,8 @@ class ItemBottom extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.asset(
       'assets/images/logo.png',
-      width: 80,
-      height: 80,
+      width: MediaQuery.of(context).size.height * 0.105,
+      height: MediaQuery.of(context).size.height * 0.105,
     );
   }
 }
