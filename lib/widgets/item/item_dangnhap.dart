@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../data/user_data.dart';
+import '../../models/staff.dart';
 import '../custom_button.dart';
 import 'item_caidat.dart';
 
 class LoginDialog extends StatefulWidget {
+
   const LoginDialog({
-    Key? key
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -13,11 +17,73 @@ class LoginDialog extends StatefulWidget {
 }
 
 class _LoginDialogState extends State<LoginDialog> {
+  List<Staff> listStaff = [];
   final TextEditingController _usernameController = TextEditingController();
+  bool isLoading = true;
+
+  Future<void> loadListStaff() async {
+    listStaff = await ReadData().loadData();
+    setState(() {
+      isLoading = false; // Dữ liệu đã được tải
+    });
+  }
+
+  @override void initState() {
+    // TODO: implement initState
+    super.initState();
+    loadListStaff();
+  }
+
+  void _login() async {
+    String username = _usernameController.text;
+
+    // Kiểm tra xem tài khoản có tồn tại trong danh sách hay không
+    bool accountExists = listStaff.any((account) => username == account.name);
+
+    if (accountExists) {
+      Staff? account = listStaff.firstWhere((account) => username == account.name);
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString('role', account.role);
+
+      String? role = prefs.getString('role');
+      print("role of user is: $role");
+
+      // Thực hiện các hành động tiếp theo sau khi đăng nhập thành công
+      Navigator.of(context).pop(); // Đóng dialog sau khi đăng nhập thành công
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return SettingDiaglog(); // Thêm ! để bỏ qua null safety
+        },
+      );
+    } else {
+      // Hiển thị thông báo lỗi khi tài khoản không tồn tại
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Lỗi"),
+            content: Text("Tài khoản không tồn tại."),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Đóng hộp thoại
+                },
+                child: Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return isLoading
+        ? Center(child: CircularProgressIndicator())
+        : AlertDialog(
       backgroundColor: Colors.white,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -54,7 +120,7 @@ class _LoginDialogState extends State<LoginDialog> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('"Vui lòng nhập mã nhân viên"', textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold)),
+                    Text("Vui lòng nhập mã nhân viên", textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold)),
                   ],
                 ),
                 SizedBox(height: 10),
@@ -72,9 +138,30 @@ class _LoginDialogState extends State<LoginDialog> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CustomButton(
-              text: "Xác nhận",
-              moveTo: () => SettingDiaglog(),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {
+                  _login();
+                },
+                style: ButtonStyle(
+                  minimumSize: MaterialStateProperty.all<Size>(Size(double.infinity, 48)), // Kích thước tối thiểu của button
+                  padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(horizontal: 16.0)), // Khoảng cách giữa nội dung và biên
+                  backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFFCF2727)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                      side: BorderSide.none, // Đường viền màu đen
+                    ),
+                  ),
+                ),
+                child: Text(
+                  "Xác nhận",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
             ),
             SizedBox(width: 80), // Khoảng cách giữa hai button
             CustomButton(text: "Bỏ qua", colorBlack: true),

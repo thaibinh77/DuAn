@@ -6,14 +6,14 @@ import '../widgets/item/item_test.dart';
 import 'item/item_menu.dart';
 import 'slider_widget.dart';
 
-class MenuScreen extends StatefulWidget {
-  const MenuScreen({Key? key}) : super(key: key);
+class CarouselMenuWidget extends StatefulWidget {
+  const CarouselMenuWidget({Key? key}) : super(key: key);
 
   @override
-  _MenuScreenState createState() => _MenuScreenState();
+  _CarouselMenuState createState() => _CarouselMenuState();
 }
 
-class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
+class _CarouselMenuState extends State<CarouselMenuWidget> with TickerProviderStateMixin {
   late List<AnimationController> controllers;
   int currentControllerIndex = 0;
   late Timer _timer;
@@ -54,26 +54,6 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
     _startTimer();
   }
 
-  void handleButtonPressForward() {
-    if (currentControllerIndex < controllers.length - 1) {
-      setState(() {
-        currentControllerIndex++;
-      });
-      controllers[currentControllerIndex].forward();
-      _resetTimer();
-    }
-  }
-
-  void handleButtonPressReverse() {
-    if (currentControllerIndex > 0) {
-      setState(() {
-        currentControllerIndex--;
-      });
-      controllers[currentControllerIndex].reverse();
-      _resetTimer();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     List<ItemMenuWidget> listCarousel = [
@@ -94,36 +74,37 @@ class _MenuScreenState extends State<MenuScreen> with TickerProviderStateMixin {
       ),
     ];
 
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Center(
-          child: CarouselSlider(
-            options: CarouselOptions(
-              height: MediaQuery.of(context).size.height, // Điều chỉnh chiều cao của các item
-              aspectRatio: 1.0,
-              autoPlay: false, // Tự động lướt
-              enlargeCenterPage: true, // Phóng to mục ở giữa
-              viewportFraction: 1.0, // Điều chỉnh kích thước của các item
-              enlargeStrategy: CenterPageEnlargeStrategy.height, // Phóng to item theo chiều cao
-              scrollPhysics: BouncingScrollPhysics(), // Sử dụng scroll physics với hiệu ứng rebound
-              scrollDirection: Axis.horizontal, // Hướng cuộn của carousel
-              // Giảm duration để tăng tốc độ trượt
-              autoPlayAnimationDuration: const Duration(
-                  milliseconds: 100), // Thời gian chuyển đổi giữa các lượt lướt
-            ),
-            items: listCarousel.map((item) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width, // Độ rộng của mỗi mục
-                    margin: EdgeInsets.symmetric(horizontal: 30.0), // Khoảng cách giữa các mục
-                    child: item,
-                  );
-                },
-              );
-            }).toList(),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Center(
+        child: CarouselSlider(
+          options: CarouselOptions(
+            height: MediaQuery.of(context).size.height, // Điều chỉnh chiều cao của các item
+            aspectRatio: 1.0,
+            autoPlay: false, // Tự động lướt
+            enlargeCenterPage: true, // Phóng to mục ở giữa
+            viewportFraction: 1.0, // Điều chỉnh kích thước của các item
+            enlargeStrategy: CenterPageEnlargeStrategy.height, // Phóng to item theo chiều cao
+            scrollPhysics: BouncingScrollPhysics(), // Sử dụng scroll physics với hiệu ứng rebound
+            scrollDirection: Axis.horizontal, // Hướng cuộn của carousel
+            // Giảm duration để tăng tốc độ trượt
+            autoPlayAnimationDuration: const Duration(
+                milliseconds: 100), // Thời gian chuyển đổi giữa các lượt lướt
+            onPageChanged: (index, reason) {
+              _resetTimer(); // Reset timer mỗi khi trang thay đổi
+            },
           ),
+          items: listCarousel.map((item) {
+            return Builder(
+              builder: (BuildContext context) {
+                return Container(
+                  width: MediaQuery.of(context).size.width, // Độ rộng của mỗi mục
+                  margin: EdgeInsets.symmetric(horizontal: 30.0), // Khoảng cách giữa các mục
+                  child: item,
+                );
+              },
+            );
+          }).toList(),
         ),
       ),
     );

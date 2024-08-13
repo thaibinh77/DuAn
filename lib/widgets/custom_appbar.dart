@@ -5,7 +5,7 @@ import 'package:duan/resources/dimens.dart';
 class CustomAppBar extends StatelessWidget {
   final String? title;
   final IconData? iconLeftButton;
-  final String? rightButtonImage; // Đường dẫn đến hình ảnh cho nút phải
+  final IconData? iconRightButton; // Đường dẫn đến hình ảnh cho nút phải
   final Widget Function()? onPressedRight;
   final Widget Function()? onPressedBack;
   final bool showBackButton;
@@ -14,7 +14,7 @@ class CustomAppBar extends StatelessWidget {
     Key? key,
     this.title,
     this.iconLeftButton,
-    this.rightButtonImage,
+    this.iconRightButton,
     this.onPressedRight,
     this.onPressedBack,
     this.showBackButton = true,
@@ -22,8 +22,14 @@ class CustomAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
+
     return Container(
-      margin: const EdgeInsets.only(top: Dimens.MarginTopAppbar),
+      padding: EdgeInsets.symmetric(
+        horizontal: screenSize.width * 0.05,
+        vertical: screenSize.height * 0.02,
+      ),
+      color: Color(0xFF004559), // Màu nền của thanh AppBar
       child: Row(
         children: [
           if (showBackButton)
@@ -41,7 +47,7 @@ class CustomAppBar extends StatelessWidget {
                     child: Text(
                       title!,
                       style: const TextStyle(
-                        color: AppColors.BaseColorBlack,
+                        color: AppColors.BaseColorWhite,
                         fontSize: Dimens.FontSizeAppBar,
                         fontWeight: FontWeight.bold,
                       ),
@@ -50,7 +56,7 @@ class CustomAppBar extends StatelessWidget {
                   : Container(),
             ),
           ),
-          if (rightButtonImage != null) // Kiểm tra nếu có hình ảnh
+          if (iconRightButton != null) // Kiểm tra nếu có hình ảnh
             GestureDetector(
               onTap: () {
                 if (onPressedRight != null) {
@@ -62,12 +68,11 @@ class CustomAppBar extends StatelessWidget {
               },
               child: Container(
                 padding: EdgeInsets.all(8),
-                child: Image.asset(
-                  rightButtonImage!, // Sử dụng hình ảnh từ đường dẫn
-                  width: Dimens.IconSizeAppBar,
-                  height: Dimens.IconSizeAppBar,
-                ),
-              ),
+                child: Icon(
+                  iconRightButton,
+                  color: AppColors.BaseColorWhite,
+                  size: 32,
+                ))
             ),
         ],
       ),

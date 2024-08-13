@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../services/api_services.dart';
 import '../custom_button.dart';
 import 'item_caidat.dart';
 
@@ -13,7 +14,7 @@ class SettingAPI extends StatefulWidget {
 }
 
 class _SettingAPIState extends State<SettingAPI> {
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _apiController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +78,7 @@ class _SettingAPIState extends State<SettingAPI> {
                 ),
                 SizedBox(height: 10),
                 TextInput(
-                  controller: _usernameController,
+                  controller: _apiController,
                   hint: '',
                 ),
               ],
@@ -90,9 +91,37 @@ class _SettingAPIState extends State<SettingAPI> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            CustomButton(
-              text: "LƯU",
-              moveTo: () => SettingDiaglog(),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  ApiService.updateApiUrl(_apiController.text);
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return SettingDiaglog();
+                    },
+                  );
+                },
+                style: ButtonStyle(
+                  minimumSize: MaterialStateProperty.all<Size>(Size(double.infinity, 48)),
+                  padding: MaterialStateProperty.all<EdgeInsets>(EdgeInsets.symmetric(horizontal: 16.0)),
+                  backgroundColor: MaterialStateProperty.all<Color>(const Color(0xFFCF2727)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16.0),
+                      side: BorderSide.none,
+                    ),
+                  ),
+                ),
+                child: Text(
+                  "LƯU",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
             ),
             SizedBox(width: 80), // Khoảng cách giữa hai button
             CustomButton(text: "BỎ QUA", colorBlack: true),
