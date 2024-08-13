@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:duan/resources/app_color.dart';
-import '../carousel_menu_widget.dart';
-import 'item_bottom.dart';
-import 'item_dangnhap.dart';
+import '../../screens/menu_screen.dart';
 
 class ItemSliderWidget extends StatelessWidget {
   const ItemSliderWidget({

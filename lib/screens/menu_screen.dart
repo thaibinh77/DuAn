@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/carousel_menu_widget.dart';
+
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
@@ -14,6 +16,7 @@ class _MenuScreenState extends State<MenuScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+        body: CarouselMenuWidget(),
     );
   }
 }

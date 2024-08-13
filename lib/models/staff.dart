@@ -1,25 +1,19 @@
 class Staff {
-  final String? id;
-  String name;
-  String pass;
+  final int id;
+  final String name;
+  final String role;
 
   Staff({
-    this.id,
+    required this.id,
     required this.name,
-    required this.pass,
+    required this.role,
   });
 
   factory Staff.fromJson(Map<String, dynamic> json) {
     return Staff(
+      id: json['id'],
       name: json['name'],
-      pass: json['pass'],
+      role: json['role'],
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'pass': pass,
-    };
   }
 }
