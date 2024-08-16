@@ -13,6 +13,8 @@ import '../widgets/custom_appbar.dart';
 import '../widgets/custom_button.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
 
+import '../widgets/drawer_menu_widget.dart';
+
 class ProgramScreens extends StatefulWidget {
   const ProgramScreens({Key? key}) : super(key: key);
 
@@ -24,8 +26,9 @@ class _ProgramScreensState extends State<ProgramScreens> with SingleTickerProvid
   API api = API();
   String _selectedItem = '';
   late List<String> listName = <String>[];
-  late List<String> listImage = <String>[];
+  late List<ImageModel> listImage = <ImageModel>[];
   Program selectedProgram = Program.empty();
+  ImageModel selectedImage = ImageModel.empty();
 
   late SharedPreferences prefs;
   String? role;
@@ -115,6 +118,9 @@ class _ProgramScreensState extends State<ProgramScreens> with SingleTickerProvid
     }
   }
 
+  void _closeEndDrawer() {
+    Navigator.of(context).pop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -179,25 +185,43 @@ class _ProgramScreensState extends State<ProgramScreens> with SingleTickerProvid
                       listImage.isEmpty
                           ? Center(child: CircularProgressIndicator())
                           : Center(
-                              child: GridView.builder(
-                                shrinkWrap: true,
-                                // physics: NeverScrollableScrollPhysics(),
-                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 4, // Hiển thị tối đa 4 hình trên mỗi hàng
-                                  crossAxisSpacing: 10.0, // Khoảng cách giữa các ảnh
-                                  // mainAxisSpacing: 2.0,
-                                ),
-                                itemCount: listImage.length,
-                                itemBuilder: (context, index) {
-                                  return SizedBox(
-                                      width: 300,
-                                      height: 200,
-                                      // child: Image.asset("assets/images/" + listImage[index])
-                                      child: Image.asset(listImage[index])
-                                  );
-                                },
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4,
+                            crossAxisSpacing: 10.0,
+                          ),
+                          itemCount: listImage.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  selectedImage = listImage[index];
+                                });
+                                // print(selectedImage);
+                                // Mở drawer từ bên phải
+                                Scaffold.of(context).openEndDrawer();
+                                // Cập nhật thông tin hình ảnh trong drawer
+
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(listImage[index].imgLink),
+                                  SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+                                  Text(
+                                    listImage[index].imageName,
+                                    style: TextStyle(
+                                      fontSize: MediaQuery.of(context).size.width * 0.012,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
+                            );
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -206,6 +230,105 @@ class _ProgramScreensState extends State<ProgramScreens> with SingleTickerProvid
           ),
         ],
       ),
+        endDrawer: Drawer(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              // Header section with image
+              Container(
+                padding: EdgeInsets.all(16.0),
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    // Display image or placeholder
+                    selectedImage.imgLink.isNotEmpty
+                        ? Image.asset(
+                      selectedImage.imgLink,
+                      height: 150, // Adjust height as needed
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    )
+                        : Container(
+                      height: 150,
+                      width: double.infinity,
+                      color: Colors.grey[300],
+                      child: Center(child: Text("No Image")),
+                    ),
+                  ],
+                ),
+              ),
+              // Spacer to push content to the bottom
+              Expanded(
+                child: Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.all(16.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Name
+                        Text(
+                          selectedImage.imageName.isNotEmpty
+                              ? selectedImage.imageName
+                              : 'No Image Selected',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(height: 8.0),
+                        // Priority
+                        Text(
+                          'Priority: ${selectedImage.priority ?? 'N/A'}',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        SizedBox(height: 8.0),
+                        // Description
+                        Text(
+                          selectedImage.imageDes.isNotEmpty
+                              ? selectedImage.imageDes
+                              : 'No Description',
+                          style: TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
+                        SizedBox(height: 16.0),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              // Footer with exit button
+              Container(
+                color: Colors.white,
+                padding: EdgeInsets.all(16.0),
+                child: Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Close the drawer
+                      Navigator.of(context).pop();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.ColorButton, // Correct property to set button background color
+                    ),
+                    child: Text(
+                      'Thoát',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+
         floatingActionButton: FloatingActionBubble(
           items: <Bubble>[
             Bubble(
