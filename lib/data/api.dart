@@ -110,8 +110,8 @@ class API {
     }
   }
 
-  Future<List<String>> getImageByName(String name) async {
-    List<String> data = [];
+  Future<List<ImageModel>> getImageByName(String name) async {
+    List<ImageModel> data = [];
 
     final uri = Uri.parse('$baseUrl/GetImageByName/$name');
 
@@ -124,7 +124,7 @@ class API {
       );
       if(res.statusCode == 200){
         final List<dynamic> jsonData = json.decode(res.body);
-        data = jsonData.cast<String>();
+        data = jsonData.map((json) => ImageModel.fromJson(json)).toList();
       }
       return data;
     } catch (ex) {
@@ -133,7 +133,7 @@ class API {
   }
 
   Future<String> addProgram(
-      String name, String startTime, String endTime, List<String> imagePaths) async {
+      String name, String startTime, String endTime, List<ImageModel> images) async {
 
     final uri = Uri.parse('$baseUrl/CreateProgram');
 
@@ -142,7 +142,12 @@ class API {
         "programName": name,
         "startDate": startTime,
         "endDate": endTime,
-        "images": imagePaths.map((path) => {"imgLink": path}).toList(),
+        "images": images.map((image) => {
+          "imgLink": image.imgLink,
+          "imageName": image.imageName,
+          "priority": image.priority,
+          "imageDes": image.imageDes
+        }).toList(),
       });
       final res = await http.post(
         uri,
@@ -152,6 +157,8 @@ class API {
         body: body,
       );
       if (res.statusCode == 200) {
+        final Map<String, dynamic> jsonData = json.decode(res.body);
+        print(jsonData);
         return "true";
       } else {
         print("Failed with status code: ${res.statusCode}, body: ${res.body}");
@@ -162,7 +169,7 @@ class API {
     }
   }
 
-  Future<String> updateProgram(int programId, String name, String startTime, String endTime, List<String> imagePaths) async {
+  Future<String> updateProgram(int programId, String name, String startTime, String endTime, List<ImageModel> images) async {
     final uri = Uri.parse('$baseUrl/UpdateProgram');
 
     try {
@@ -171,7 +178,13 @@ class API {
         'programName': name,
         'startDate': startTime,
         'endDate': endTime,
-        "images": imagePaths.map((path) => {"imgLink": path}).toList(),
+        "images": images.map((image) => {
+          "imageId": image.id,
+          "imgLink": image.imgLink,
+          "imageName": image.imageName,
+          "priority": image.priority,
+          "imageDes": image.imageDes
+        }).toList(),
       });
       final res = await http.put(
         uri,

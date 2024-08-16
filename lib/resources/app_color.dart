@@ -13,6 +13,7 @@ class AppColors {
   static const Color BaseColorAroundWhite = Color(0xFFBFBFBF);
   static const Color BaseColorGrey = Colors.grey;
   static const Color BaseBackgroundColor = Colors.white;
+  static const Color ColorButton = Color(0xFF004559);
 
   ///sub
   static const Color SubColorDate = Color(0xFF3B3B3B);
